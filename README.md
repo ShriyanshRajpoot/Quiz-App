@@ -11,3 +11,10 @@ A modern and interactive Quiz Application built with **React.js**. Users can ans
 - 🎯 Final result screen
 - 📱 Responsive design
 - ⚡ Fast performance with React
+
+# 🛠️ Tech Stack
+
+- JavaScript (ES6+)
+- HTML5
+- CSS3
+- Vite
