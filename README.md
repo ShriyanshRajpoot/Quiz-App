@@ -17,8 +17,7 @@ A modern and interactive Quiz Application built with **React.js**. Users can ans
 - JavaScript (ES6+)
 - HTML5
 - CSS3
-- Vite
-
+  
 # 🎮 How to Use
 
 1. Start the quiz.
