@@ -26,3 +26,13 @@ A modern and interactive Quiz Application built with **React.js**. Users can ans
 3. Select your answer.
 4. Move to the next question.
 5. View your final score after completing the quiz.
+
+# 🔮 Future Improvements
+
+- Timer for each question
+- Difficulty levels
+- Randomized questions
+- API integration
+- Category-wise quizzes
+- User authentication
+
