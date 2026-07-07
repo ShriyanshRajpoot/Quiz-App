@@ -18,3 +18,11 @@ A modern and interactive Quiz Application built with **React.js**. Users can ans
 - HTML5
 - CSS3
 - Vite
+
+# 🎮 How to Use
+
+1. Start the quiz.
+2. Read each question carefully.
+3. Select your answer.
+4. Move to the next question.
+5. View your final score after completing the quiz.
