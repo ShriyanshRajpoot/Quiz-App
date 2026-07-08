@@ -223,6 +223,7 @@
     <h2>🎉 Quiz Complete!</h2>
     <div class="final-score" id="finalScore">0 / 5</div>
     <p id="resultMsg"></p>
+    <p id="bestScoreMsg" style="color:#2a5298; font-weight:bold; margin-bottom:20px;"></p>
     <button id="restartBtn" onclick="restartQuiz()">Play Again</button>
   </div>
 </div>
@@ -267,6 +268,7 @@
   let timeLeft = 15;
   let timerInterval;
   let answered = false;
+  let bestScore = 0; // tracks the highest score across replays in this session
 
   window.onload = function() {
     loadQuestion();
@@ -360,6 +362,12 @@
     document.getElementById('resultScreen').classList.remove('hide');
 
     document.getElementById('finalScore').textContent = `${score} / ${questions.length}`;
+
+    // update and display best score for this session
+    if (score > bestScore) {
+      bestScore = score;
+    }
+    document.getElementById('bestScoreMsg').textContent = `🏆 Best Score: ${bestScore} / ${questions.length}`;
 
     let msg = '';
     const percent = (score / questions.length) * 100;
