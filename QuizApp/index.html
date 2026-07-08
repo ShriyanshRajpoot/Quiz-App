@@ -41,7 +41,7 @@
   .top-bar {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 12px 15px;
     background: #f0f4ff;
     border-radius: 8px;
@@ -51,6 +51,24 @@
 
   .timer {
     color: #e74c3c;
+  }
+
+  /* ===== Progress Bar ===== */
+  .progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2a5298, #1e3c72);
+    border-radius: 5px;
+    transition: width 0.4s ease;
   }
 
   /* ===== Question Section ===== */
@@ -182,11 +200,15 @@
 <div class="quiz-container">
   <h1>🧠 Quiz Time!</h1>
 
-
   <div id="quizScreen">
     <div class="top-bar">
       <span>Score: <span id="score">0</span></span>
       <span class="timer">⏱ <span id="timer">15</span>s</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
     </div>
 
     <p class="question-num" id="questionNum">Question 1 of 5</p>
@@ -197,7 +219,6 @@
     <button id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
   </div>
 
-<!-- //on latter -->
   <div id="resultScreen" class="result hide">
     <h2>🎉 Quiz Complete!</h2>
     <div class="final-score" id="finalScore">0 / 5</div>
@@ -241,40 +262,29 @@
     }
   ];
 
-
   let currentQuestion = 0;
   let score = 0;
   let timeLeft = 15;
   let timerInterval;
   let answered = false;
 
-
   window.onload = function() {
     loadQuestion();
   };
 
-  // function loadQuestion(){
-  //   answered=false
-  //   timeLeft=15
-  
-  // }
-  // loadQuestion()
-
-
   function loadQuestion() {
     answered = false;
     timeLeft = 15;
-    // document.getElementById('timer').textContent = timeLeft;
-      document.querySelector("#timer").textContent=timeLeft
-        document.getElementById('nextBtn').disabled = true;
-            const q = questions[currentQuestion];
+    document.querySelector("#timer").textContent = timeLeft;
+    document.getElementById('nextBtn').disabled = true;
+    const q = questions[currentQuestion];
     document.getElementById('questionNum').textContent =
       `Question ${currentQuestion + 1} of ${questions.length}`;
     document.getElementById('question').textContent = q.question;
 
-
-
-
+    // update progress bar width based on current question
+    const progressPercent = (currentQuestion / questions.length) * 100;
+    document.getElementById('progressBarFill').style.width = progressPercent + '%';
 
     const optionsDiv = document.getElementById('options');
     optionsDiv.innerHTML = '';
@@ -290,7 +300,6 @@
     startTimer();
   }
 
-
   function startTimer() {
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
@@ -304,7 +313,6 @@
     }, 1000);
   }
 
-
   function checkAnswer(selectedIndex, btn) {
     if (answered) return;    
     answered = true;
@@ -312,7 +320,6 @@
 
     const correctIndex = questions[currentQuestion].answer;
     const allOptions = document.querySelectorAll('.option');
-
 
     allOptions.forEach(o => o.disabled = true);
 
@@ -322,13 +329,11 @@
       document.getElementById('score').textContent = score;
     } else {
       btn.classList.add('wrong');
-
       allOptions[correctIndex].classList.add('correct');
     }
 
     document.getElementById('nextBtn').disabled = false;
   }
-
 
   function timeUp() {
     answered = true;
@@ -340,23 +345,21 @@
     document.getElementById('nextBtn').disabled = false;
   }
 
-
   function nextQuestion() {
     currentQuestion++;
     if (currentQuestion < questions.length) {
       loadQuestion();
     } else {
+      document.getElementById('progressBarFill').style.width = '100%';
       showResult();
     }
   }
-
 
   function showResult() {
     document.getElementById('quizScreen').classList.add('hide');
     document.getElementById('resultScreen').classList.remove('hide');
 
     document.getElementById('finalScore').textContent = `${score} / ${questions.length}`;
-
 
     let msg = '';
     const percent = (score / questions.length) * 100;
@@ -367,7 +370,6 @@
 
     document.getElementById('resultMsg').textContent = msg;
   }
-
 
   function restartQuiz() {
     currentQuestion = 0;
