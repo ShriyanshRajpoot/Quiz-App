@@ -28,7 +28,6 @@ A modern and interactive Quiz Application built with **React.js**. Users can ans
 
 # 🔮 Future Improvements
 
-- Timer for each question
 - Difficulty levels
 - Randomized questions
 - API integration
