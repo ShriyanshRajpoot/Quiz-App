@@ -1,6 +1,6 @@
 # 🧠 Quiz App
 
-A modern and interactive Quiz Application built with **React.js**. Users can answer multiple-choice questions, track their score, and experience a clean, responsive interface.
+A modern and interactive Quiz Application built with **js**. Users can answer multiple-choice questions, track their score, and experience a clean, responsive interface.
 
 # 🚀 Features
 
