@@ -12,7 +12,9 @@ A modern and interactive Quiz Application built with **js**. Users can answer mu
 - 📱 Responsive design
 - ⚡ Fast performance with React
 - 📊 Progress bar
-- ✅ Sound effects
+- 🔊 Sound effects for:
+    ✅ Correct answers
+    ❌ Wrong answers
 
 
 # 🛠️ Tech Stack
