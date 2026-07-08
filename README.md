@@ -12,6 +12,8 @@ A modern and interactive Quiz Application built with **React.js**. Users can ans
 - 📱 Responsive design
 - ⚡ Fast performance with React
 - 📊 Progress bar
+- ✅ Sound effects
+
 
 # 🛠️ Tech Stack
 
