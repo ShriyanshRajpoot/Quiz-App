@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Quiz App</title>
 <style>
-  /* ===== Basic Reset ===== */
   * {
     margin: 0;
     padding: 0;
@@ -37,7 +36,6 @@
     font-size: 28px;
   }
 
-  /* ===== Top Bar (Score + Timer) ===== */
   .top-bar {
     display: flex;
     justify-content: space-between;
@@ -53,7 +51,6 @@
     color: #e74c3c;
   }
 
-  /* ===== Progress Bar ===== */
   .progress-bar-container {
     width: 100%;
     height: 10px;
@@ -71,7 +68,6 @@
     transition: width 0.4s ease;
   }
 
-  /* ===== Question Section ===== */
   .question-num {
     color: #888;
     font-size: 14px;
@@ -86,7 +82,6 @@
     min-height: 60px;
   }
 
-  /* ===== Options ===== */
   .options {
     display: flex;
     flex-direction: column;
@@ -128,7 +123,6 @@
     cursor: not-allowed;
   }
 
-  /* ===== Next Button ===== */
   #nextBtn {
     width: 100%;
     padding: 13px;
@@ -151,7 +145,6 @@
     cursor: not-allowed;
   }
 
-  /* ===== Result Screen ===== */
   .result {
     text-align: center;
   }
@@ -206,7 +199,6 @@
       <span class="timer">⏱ <span id="timer">15</span>s</span>
     </div>
 
-    <!-- Progress bar -->
     <div class="progress-bar-container">
       <div class="progress-bar-fill" id="progressBarFill"></div>
     </div>
@@ -270,6 +262,34 @@
   let answered = false;
   let bestScore = 0; // tracks the highest score across replays in this session
 
+  // Web Audio API context for generating sound effects
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playTone(frequency, duration, type = 'sine') {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+    gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+    oscillator.start(audioCtx.currentTime);
+    oscillator.stop(audioCtx.currentTime + duration);
+  }
+
+  function playCorrectSound() {
+    playTone(523.25, 0.15); // C5
+    setTimeout(() => playTone(659.25, 0.2), 100); // E5
+  }
+
+  function playWrongSound() {
+    playTone(150, 0.3, 'sawtooth');
+  }
+
   window.onload = function() {
     loadQuestion();
   };
@@ -284,7 +304,6 @@
       `Question ${currentQuestion + 1} of ${questions.length}`;
     document.getElementById('question').textContent = q.question;
 
-    // update progress bar width based on current question
     const progressPercent = (currentQuestion / questions.length) * 100;
     document.getElementById('progressBarFill').style.width = progressPercent + '%';
 
@@ -329,9 +348,11 @@
       btn.classList.add('correct');
       score++;
       document.getElementById('score').textContent = score;
+      playCorrectSound();
     } else {
       btn.classList.add('wrong');
       allOptions[correctIndex].classList.add('correct');
+      playWrongSound();
     }
 
     document.getElementById('nextBtn').disabled = false;
@@ -344,6 +365,7 @@
 
     allOptions.forEach(o => o.disabled = true);
     allOptions[correctIndex].classList.add('correct');
+    playWrongSound();
     document.getElementById('nextBtn').disabled = false;
   }
 
@@ -363,7 +385,6 @@
 
     document.getElementById('finalScore').textContent = `${score} / ${questions.length}`;
 
-    // update and display best score for this session
     if (score > bestScore) {
       bestScore = score;
     }
